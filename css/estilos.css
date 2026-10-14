@@ -1,0 +1,357 @@
+/* =========================================================
+   DINAMIK SOLUTIONS — versión moderna (HTML5 + CSS)
+   Mismo diseño de 2009, pero el menú, las barras de título y
+   los recuadros ahora son CSS (antes eran imágenes).
+   ========================================================= */
+
+/* ---------- Colores de cada página ----------
+   Cada <body> lleva una clase de tema: tema-cian, tema-rojo,
+   tema-verde o tema-magenta. Cambiando estas variables cambia
+   todo: barra de título, recuadro inferior y botón activo. */
+:root {
+    --fuente: Verdana, Geneva, Helvetica, sans-serif;
+    --fuente-menu: "Times New Roman", Times, serif;
+    --blanco: #fff;
+    --texto-gris: #484f54;
+    --negro: #000;
+    --radio-barra: 7px;
+}
+
+.tema-cian {
+    --b1: #8ee3ec; --b2: #51c0c9; --b3: #289eaa; --b4: #3995a0; --b5: #2e7d81;
+    --c1: #65b7c3; --c2: #307980;
+    --borde: #2a7a84;
+}
+.tema-rojo {
+    --b1: #f59393; --b2: #e35353; --b3: #d51816; --b4: #9e0507; --b5: #5a0e0e;
+    --c1: #fe0000; --c2: #540c0d;
+    --borde: #6e0a0b;
+}
+.tema-verde {
+    --b1: #5ef0b0; --b2: #2bc472; --b3: #0ca346; --b4: #008a03; --b5: #066308;
+    --c1: #31ca32; --c2: #076004;
+    --borde: #056005;
+}
+.tema-magenta {
+    --b1: #f992e1; --b2: #eb5bb3; --b3: #e7308d; --b4: #c3276e; --b5: #961951;
+    --c1: #fd61c2; --c2: #7a1745;
+    --borde: #8a174c;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;          /* reemplaza el truco top:50% + margin negativo */
+    padding: 16px;
+    background: #fff;
+    font-family: var(--fuente);
+    font-size: 11px;
+    color: var(--blanco);
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; height: auto; }
+
+/* ---------- Marco blanco con borde y sombra (antes fONDO.jpg) ---------- */
+.marco {
+    width: 685px;
+    min-height: 500px;
+    display: grid;
+    grid-template-columns: 142px 457px;
+    column-gap: 30px;
+    padding: 28px 28px 35px;
+    background: #fff;
+    border: 2px solid #bababa;
+    border-radius: 11px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, .28);
+}
+
+/* ---------- Columna izquierda: menú + logo ---------- */
+.lateral {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menu { list-style: none; }
+.menu > li + li { margin-top: 6px; }
+
+/* Botón con efecto "vidrio": mitad clara arriba, corte, mitad oscura abajo
+   (antes era la imagen botones.jpg) */
+.menu a {
+    display: block;
+    height: 22px;
+    padding-left: 18px;
+    font-family: var(--fuente-menu);
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .35);
+    border: 1px solid #8f9593;
+    border-radius: 6px;
+    background: linear-gradient(to bottom,
+        #f2eef1 0%, #d6d5d6 25%, #bdbdbd 49%,
+        #8c8c8c 51%, #747474 75%, #5f5f5f 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 1px 1px rgba(0, 0, 0, .15);
+    transition: color .2s, filter .2s;
+}
+.menu a:hover,
+.menu a:focus-visible { color: #0ff; filter: brightness(1.06); }
+.menu a:focus-visible { outline: 2px solid var(--b3); outline-offset: 2px; }
+
+/* Botón de la página actual: toma el color de la página */
+.menu a[aria-current="page"] {
+    border-color: var(--borde);
+    background: linear-gradient(to bottom,
+        var(--b1) 0%, var(--b2) 25%, var(--b3) 49%,
+        var(--b4) 51%, var(--b5) 100%);
+}
+
+/* Submenú "Beneficios" (solo en las páginas de Propuesta) */
+.submenu { list-style: none; margin: 4px 0 2px 18px; }
+.submenu a {
+    display: inline;
+    height: auto;
+    padding: 0;
+    font-family: var(--fuente);
+    font-size: 12px;
+    line-height: 17px;
+    color: #900;
+    text-shadow: none;
+    border: 0;
+    background: none;
+    box-shadow: none;
+}
+.submenu a[aria-current="page"] { background: none; text-decoration: underline; }
+.submenu a:hover { color: #d00; }
+
+.logo { width: 88px; margin: 0 0 -4px 27px; }
+
+/* ---------- Columna derecha: panel ---------- */
+.panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 437px;
+}
+
+/* Barra de título "vidrio" (antes venía pintada en el fondo) */
+.barra {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 5px 10px;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-barra);
+    background: linear-gradient(to bottom,
+        var(--b1) 0%, var(--b2) 25%, var(--b3) 49%,
+        var(--b4) 51%, var(--b5) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45);
+}
+.barra h1 {
+    font-size: 12px;
+    font-weight: bold;
+    text-align: right;
+    line-height: 1.15;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .25);
+}
+.barra--izquierda { justify-content: flex-start; padding-left: 12px; }
+.barra--izquierda h1 { font-size: 15px; font-style: italic; text-align: left; }
+.barra--centro { justify-content: center; }
+.barra--centro h1 { text-align: center; }
+
+/* Foto con franja negra (arriba o abajo) */
+.foto {
+    position: relative;
+    margin-top: 8px;
+    background: var(--negro);
+    border-radius: var(--radio-barra);
+    overflow: hidden;
+}
+.foto img { width: 100%; }
+
+.franja {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    min-height: 18px;
+    padding: 2px 10px 1px;
+    list-style: none;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 15px;
+    color: #fff;
+    background: var(--negro);
+}
+.franja--izquierda { justify-content: flex-start; padding-left: 16px; font-weight: normal; }
+.franja li::before { content: "•"; margin-right: 8px; }
+.franja li { margin-right: 10px; }
+
+/* Etiqueta "Sesiones de grupo" sobre la foto de Propuesta */
+.etiqueta {
+    position: absolute;
+    right: 22px;
+    bottom: 22px;
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--negro);
+}
+
+/* Recuadro inferior de color (antes pintado en el fondo) */
+.recuadro {
+    margin-top: auto;              /* siempre pegado abajo */
+    min-height: 85px;
+    padding: 8px 11px 8px 18px;
+    text-align: right;
+    line-height: 1.2;
+    border-radius: var(--radio-barra);
+    background: linear-gradient(to bottom, var(--c1), var(--c2));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
+}
+.recuadro p + p { margin-top: 0; }
+.recuadro--grande { font-size: 12px; padding-top: 9px; }
+.recuadro .copy {
+    margin-top: 12px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* ---------- Portafolio: 6 tarjetas ---------- */
+.modulos {
+    display: grid;
+    grid-template-columns: 214px 225px;
+    justify-content: space-between;
+    grid-template-rows: repeat(3, 84px);
+    row-gap: 12px;
+    margin: 9px 3px 0 4px;
+}
+.modulo h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .25);
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    background: linear-gradient(to bottom,
+        var(--b1) 0%, var(--b2) 25%, var(--b3) 49%,
+        var(--b4) 51%, var(--b5) 100%);
+}
+.modulo p {
+    margin-top: 9px;
+    font-size: 9px;
+    line-height: 1.12;
+    text-align: right;
+    color: var(--texto-gris);
+}
+
+/* ---------- Beneficios: recuadro blanco con lista y clientes ---------- */
+.beneficios {
+    display: flex;
+    flex-direction: column;
+    height: 294px;
+    margin-top: 8px;
+    padding: 6px 12px 12px 22px;
+    color: #000;
+    border: 1px solid #ec7f7f;
+    border-radius: var(--radio-barra);
+}
+.beneficios li { font-size: 11px; line-height: 20px; }
+.beneficios .clientes { margin: auto auto 0; width: 300px; }
+
+/* ---------- Contacto ---------- */
+.datos { font-size: 11px; line-height: 18px; font-style: normal; }
+.datos strong { display: block; font-size: 14px; line-height: 20px; }
+.datos a:hover { color: #0ff; }
+
+/* =========================================================
+   CELULAR / PANTALLAS PEQUEÑAS
+   ========================================================= */
+@media (max-width: 760px) {
+    body { place-items: start center; padding: 12px; }
+
+    .marco {
+        width: 100%;
+        max-width: 520px;
+        grid-template-columns: 1fr;
+        row-gap: 18px;
+        padding: 18px;
+    }
+
+    .lateral { flex-direction: column-reverse; align-items: center; gap: 14px; }
+    .logo { margin: 0; }
+    .lateral nav { width: 100%; }
+    .menu {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        width: 100%;
+    }
+    .menu > li + li { margin-top: 0; }
+    .menu a { height: 30px; padding-left: 0; text-align: center; font-size: 15px; line-height: 28px; }
+    .submenu { margin: 4px 0 0; text-align: center; }
+
+    .panel { min-height: 0; }
+    .recuadro { margin-top: 10px; }
+    .modulos {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: none;
+        column-gap: 10px;
+    }
+    .beneficios { height: auto; }
+    .beneficios .clientes { max-width: 100%; margin-top: 14px; }
+}
+
+@media (max-width: 440px) {
+    .menu { grid-template-columns: repeat(2, 1fr); }
+    .modulos { grid-template-columns: 1fr; }
+    .modulo p { font-size: 11px; }
+    .franja { flex-wrap: wrap; }
+}
+
+/* =========================================================
+   ANIMACIONES DE ENTRADA (al cargar cada página)
+   Solo CSS. Se desactivan si el usuario pidió "reducir movimiento".
+   ========================================================= */
+@keyframes aparecer   { from { opacity: 0; } }
+@keyframes subir      { from { opacity: 0; transform: translateY(14px); } }
+@keyframes desdeIzq   { from { opacity: 0; transform: translateX(-16px); } }
+@keyframes desdeDer   { from { opacity: 0; transform: translateX(22px); } }
+@keyframes acercar    { from { opacity: 0; transform: scale(1.06); } }
+
+@media (prefers-reduced-motion: no-preference) {
+    :root { --suave: cubic-bezier(.22, .61, .36, 1); }
+
+    /* (Sin animación en .marco, los botones del menú ni el logo) */
+
+    /* 3. La barra de título se desliza desde la derecha */
+    .barra { animation: desdeDer .6s var(--suave) .3s both; }
+
+    /* 4. La foto aparece con un leve acercamiento */
+    .foto { animation: aparecer .7s ease .45s both; }
+    .foto img { animation: acercar 1.4s var(--suave) .45s both; }
+    .franja { animation: aparecer .5s ease .9s both; }
+    .etiqueta { animation: aparecer .5s ease 1.1s both; }
+
+    /* 5. Tarjetas del Portafolio y recuadro de Beneficios */
+    .modulo { animation: subir .5s var(--suave) both; }
+    .modulo:nth-child(1) { animation-delay: .45s; }
+    .modulo:nth-child(2) { animation-delay: .52s; }
+    .modulo:nth-child(3) { animation-delay: .59s; }
+    .modulo:nth-child(4) { animation-delay: .66s; }
+    .modulo:nth-child(5) { animation-delay: .73s; }
+    .modulo:nth-child(6) { animation-delay: .80s; }
+    .beneficios { animation: subir .6s var(--suave) .45s both; }
+
+    /* 6. El recuadro de color sube al final */
+    .recuadro { animation: subir .6s var(--suave) .7s both; }
+}
